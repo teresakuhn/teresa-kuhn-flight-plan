@@ -4,44 +4,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#EFEADA;
-    --panel:#FBF8EE;
-    --panel-soft:#F3EEDF;
-    --ink:#16232C;
-    --ink-soft:#4B5A60;
+    --paper:#E6F1EC;
+    --panel:#F6FAF8;
+    --panel-soft:#EAF4EF;
+    --ink:#12313A;
+    --ink-soft:#4E6C68;
     --spain:#0E6E77;
     --pnw:#2C5F8A;
     --florida:#1F7A5C;
-    --gold:#A9791F;
-    --line:#C9C0A6;
-    --shadow:rgba(22,35,44,0.16);
+    --gold:#1C86B0;
+    --line:#B7C9C2;
+    --shadow:rgba(18,49,58,0.16);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --paper:#0D1A21;
-      --panel:#13212A;
-      --panel-soft:#182833;
-      --ink:#ECE7D6;
-      --ink-soft:#9FB0AE;
+      --paper:#0A171D;
+      --panel:#112229;
+      --panel-soft:#163038;
+      --ink:#E7F2EC;
+      --ink-soft:#9BB8B1;
       --spain:#54D8CA;
       --pnw:#7FB4E6;
       --florida:#5FCE96;
-      --gold:#E4B85B;
-      --line:#2B3C44;
+      --gold:#5FC6EC;
+      --line:#254245;
       --shadow:rgba(0,0,0,0.55);
     }
   }
   :root[data-theme="dark"]{
-    --paper:#0D1A21;
-    --panel:#13212A;
-    --panel-soft:#182833;
-    --ink:#ECE7D6;
-    --ink-soft:#9FB0AE;
+    --paper:#0A171D;
+    --panel:#112229;
+    --panel-soft:#163038;
+    --ink:#E7F2EC;
+    --ink-soft:#9BB8B1;
     --spain:#54D8CA;
     --pnw:#7FB4E6;
     --florida:#5FCE96;
-    --gold:#E4B85B;
-    --line:#2B3C44;
+    --gold:#5FC6EC;
+    --line:#254245;
     --shadow:rgba(0,0,0,0.55);
   }
 
@@ -485,7 +485,7 @@
             <span class="chip">Program &amp; supply chain strategy</span>
           </div>
           <div class="route-strip">
-            <span class="seg">SPAIN</span>&rarr;<span class="seg">PACIFIC NORTHWEST</span>&rarr;<span class="seg">FLORIDA SPACE COAST</span>
+            <span class="seg">WASHINGTON, DC</span>&rarr;<span class="seg">SPAIN</span>&rarr;<span class="seg">PACIFIC NORTHWEST</span>&rarr;<span class="seg">FLORIDA SPACE COAST</span>
           </div>
           <p class="hint"><span class="chev">&rsaquo;</span> fly the route &mdash; arrow keys or the dots below</p>
         </div>
@@ -500,6 +500,7 @@
         <div class="frame-body">
           <p class="kicker">Waypoint 02 &middot; Route</p>
           <h2 class="frame-title">The Route</h2>
+          <p class="frame-sub">From American University in Washington, D.C. to the Space Coast.</p>
           <div class="route-grid">
             <div>
               <div class="chartbox">
@@ -525,8 +526,8 @@
                     <line x1="582.8" y1="118.3" x2="856.5" y2="395.7"/>
                   </g>
 
-                  <!-- chronological hub path -->
-                  <path d="M582.8,118.3 L40,70.6 L230.4,159.3" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-dasharray="1 9" marker-end="url(#arrow)" opacity="0.85"/>
+                  <!-- chronological hub path, starting at undergrad -->
+                  <path d="M247,109.3 L582.8,118.3 L40,70.6 L230.4,159.3" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-dasharray="1 9" marker-end="url(#arrow)" opacity="0.85"/>
 
                   <!-- travel pins -->
                   <g fill="var(--gold)" stroke="var(--panel)" stroke-width="1.4">
@@ -548,6 +549,10 @@
                     <text x="866" y="404">R&#233;union</text>
                   </g>
 
+                  <!-- undergrad origin -->
+                  <g>
+                    <circle cx="247" cy="109.3" r="13" fill="var(--ink)" stroke="var(--gold)" stroke-width="2.5"/>
+                  </g>
                   <!-- hubs -->
                   <g>
                     <circle cx="40" cy="70.6" r="15" fill="var(--pnw)" stroke="var(--panel)" stroke-width="3"/>
@@ -555,18 +560,24 @@
                     <circle cx="230.4" cy="159.3" r="15" fill="var(--florida)" stroke="var(--panel)" stroke-width="3"/>
                   </g>
                   <g font-family="Big Shoulders Display, sans-serif" font-weight="800" font-size="15" fill="var(--ink)">
+                    <text x="140" y="140">WASHINGTON, DC</text>
                     <text x="60" y="66">PACIFIC NORTHWEST</text>
                     <text x="466" y="150">SPAIN</text>
                     <text x="140" y="188">FLORIDA SPACE COAST</text>
+                  </g>
+                  <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--gold)">
+                    <text x="140" y="153">American University &middot; BA</text>
                   </g>
                 </svg>
               </div>
               <div class="legend">
                 <div class="legend-item"><span class="sw" style="background:var(--spain);"></span>Based here</div>
                 <div class="legend-item"><span class="sw" style="background:var(--gold);"></span>Traveled for work</div>
+                <div class="legend-item"><span class="sw" style="background:var(--ink); outline:2px solid var(--gold); outline-offset:-2px;"></span>Undergraduate</div>
               </div>
             </div>
             <ul class="hublog">
+              <li style="border-color:var(--gold)"><b style="color:var(--ink)">Washington, DC</b>BA, Language &amp; Area Studies &mdash; American University. Where the flight plan begins.</li>
               <li style="border-color:var(--spain)"><b style="color:var(--spain)">Spain</b>Flight ops &amp; training, then EMEA comms and sales.</li>
               <li style="border-color:var(--pnw)"><b style="color:var(--pnw)">Pacific Northwest</b>KC&#8209;46, global sales, digital transformation.</li>
               <li style="border-color:var(--florida)"><b style="color:var(--florida)">Florida</b>Supplier quality, supply chain, manufacturing at Blue Origin.</li>
@@ -677,8 +688,9 @@
           <div class="creds">
             <div class="cred-row"><span class="deg">MBA</span><span class="sch">Washington State University</span></div>
             <div class="cred-row"><span class="deg">MS, Logistics &amp; Supply Chain Management</span><span class="sch">Embry&#8209;Riddle Aeronautical University</span></div>
-            <div class="cred-row"><span class="deg">BA, Language &amp; Area Studies</span><span class="sch">American University</span></div>
+            <div class="cred-row" style="border-color:var(--gold)"><span class="deg">BA, Language &amp; Area Studies</span><span class="sch">American University &mdash; Washington, D.C.</span></div>
           </div>
+          <div><span class="chip" style="border-color:var(--gold); margin-top:6px; display:inline-block;">Waypoint 00 &middot; where the flight plan begins</span></div>
           <p class="lang-line">English / Spanish (bilingual), Italian (fluent), French &amp; Portuguese (conversational)</p>
           <div class="seal"><span class="dot"></span>Licensed commercial pilot</div>
           <div><button class="restart" id="restartBtn" type="button">&#8630; fly the route again</button></div>
