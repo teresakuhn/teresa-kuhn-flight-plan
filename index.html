@@ -372,8 +372,6 @@
   body.mode-flow .hint{display:none;}
 
   /* route frame */
-  .route-grid{display:grid; grid-template-columns:1.35fr 1fr; gap:30px; align-items:start;}
-  @media (max-width:760px){.route-grid{grid-template-columns:1fr;}}
   .chartbox{
     border:1px solid var(--line);
     background:var(--panel-soft);
@@ -384,22 +382,28 @@
   .legend{display:flex; gap:22px; margin-top:12px; flex-wrap:wrap;}
   .legend-item{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-soft);}
   .legend-item .sw{width:11px; height:11px; transform:rotate(45deg); flex:none;}
-  .hublog{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
-  .hublog li{padding-left:16px; border-left:3px solid var(--line); font-size:14.5px; line-height:1.5;}
-  .hublog b{font-family:"Big Shoulders Display", sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.02em; display:block; font-size:15px; margin-bottom:2px;}
+  .hub-timeline{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:22px;}
+  @media (max-width:900px){.hub-timeline{grid-template-columns:1fr 1fr;}}
+  @media (max-width:520px){.hub-timeline{grid-template-columns:1fr;}}
+  .hub-col{border-top:3px solid var(--c); padding-top:10px;}
+  .hub-col h3{font-family:"Big Shoulders Display", sans-serif; font-weight:800; text-transform:uppercase; font-size:13.5px; letter-spacing:0.02em; color:var(--c); margin-bottom:8px;}
+  .tl-entry{margin-bottom:8px;}
+  .tl-entry .yr{display:block; font-family:"IBM Plex Mono", monospace; font-size:10.5px; color:var(--c); letter-spacing:0.03em;}
+  .tl-entry .what{display:block; font-size:12.5px; color:var(--ink); line-height:1.35; margin-top:1px;}
 
   /* instruments */
-  .gauge-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px;}
-  @media (max-width:520px){.gauge-grid{grid-template-columns:1fr;}}
+  .gauge-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:22px;}
+  @media (max-width:760px){.gauge-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:480px){.gauge-grid{grid-template-columns:1fr;}}
   .gauge{
-    display:flex; align-items:center; gap:12px;
+    display:flex; align-items:center; gap:10px;
     background:var(--panel);
     border:1px solid var(--line);
     border-left:5px solid var(--c);
     border-radius:4px;
-    padding:14px 16px;
-    font-size:14px;
-    line-height:1.35;
+    padding:12px 14px;
+    font-size:12.5px;
+    line-height:1.3;
   }
   .gauge .bulb{width:9px; height:9px; border-radius:50%; background:var(--c); flex:none;}
 
@@ -463,7 +467,7 @@
   <div id="universe">
 
     <svg id="routepath" width="13000" height="1600" viewBox="0 0 13000 1600">
-      <path d="M650,1150 L2900,1460 L5300,980 L7700,1400 L10100,1020 L12300,1310"
+      <path d="M650,1150 L2900,1540 L5300,980 L7700,1400 L10100,1020 L12300,1380"
             fill="none" stroke="var(--gold)" stroke-width="3" stroke-dasharray="2 14"
             stroke-linecap="round" opacity="0.6"/>
     </svg>
@@ -479,10 +483,10 @@
               <h1 class="name">TERESA<br>KUHN</h1>
             </div>
           </div>
-          <p class="role-line"><b>Supplier quality, supply chain, and manufacturing</b> &mdash; Blue Origin, Florida Space Coast.</p>
+          <p class="role-line"><b>Manufacturing Operations Project Manager, Integrated Supply Chain</b> &mdash; Blue Origin, Merritt Island, FL.</p>
           <div class="chips">
             <span class="chip">Licensed commercial pilot</span>
-            <span class="chip">Program &amp; supply chain strategy</span>
+            <span class="chip">Secret clearance</span>
           </div>
           <div class="route-strip">
             <span class="seg">WASHINGTON, DC</span>&rarr;<span class="seg">SPAIN</span>&rarr;<span class="seg">PACIFIC NORTHWEST</span>&rarr;<span class="seg">FLORIDA SPACE COAST</span>
@@ -495,14 +499,13 @@
     </section>
 
     <section class="frame frame--route" data-code="02" data-label="ROUTE"
-              data-cx="2900" data-cy="1010" data-w="1300" data-h="820">
+              data-cx="2900" data-cy="1010" data-w="1300" data-h="980">
       <div class="plate">
         <div class="frame-body">
           <p class="kicker">Waypoint 02 &middot; Route</p>
           <h2 class="frame-title">The Route</h2>
           <p class="frame-sub">From American University in Washington, D.C. to the Space Coast.</p>
-          <div class="route-grid">
-            <div>
+          <div>
               <div class="chartbox">
                 <svg viewBox="0 0 1000 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chart of career hubs and work travel">
                   <defs>
@@ -575,13 +578,31 @@
                 <div class="legend-item"><span class="sw" style="background:var(--gold);"></span>Traveled for work</div>
                 <div class="legend-item"><span class="sw" style="background:var(--ink); outline:2px solid var(--gold); outline-offset:-2px;"></span>Undergraduate</div>
               </div>
+          </div>
+          <div class="hub-timeline">
+            <div class="hub-col" style="--c:var(--gold)">
+              <h3>Washington, DC</h3>
+              <div class="tl-entry"><span class="yr">Origin</span><span class="what">American University &mdash; BA, Language &amp; Area Studies</span></div>
             </div>
-            <ul class="hublog">
-              <li style="border-color:var(--gold)"><b style="color:var(--ink)">Washington, DC</b>BA, Language &amp; Area Studies &mdash; American University. Where the flight plan begins.</li>
-              <li style="border-color:var(--spain)"><b style="color:var(--spain)">Spain</b>Flight ops &amp; training, then EMEA comms and sales.</li>
-              <li style="border-color:var(--pnw)"><b style="color:var(--pnw)">Pacific Northwest</b>KC&#8209;46, global sales, digital transformation.</li>
-              <li style="border-color:var(--florida)"><b style="color:var(--florida)">Florida</b>Supplier quality, supply chain, manufacturing at Blue Origin.</li>
-            </ul>
+            <div class="hub-col" style="--c:var(--spain)">
+              <h3>Spain</h3>
+              <div class="tl-entry"><span class="yr">1998&#8211;2005</span><span class="what">Air Consul (Seville) &mdash; Ops Manager &amp; Chief Ground Instructor</span></div>
+              <div class="tl-entry"><span class="yr">2006&#8211;2011</span><span class="what">Boeing (Madrid) &mdash; Comms &amp; Sales Support, EMEA</span></div>
+            </div>
+            <div class="hub-col" style="--c:var(--pnw)">
+              <h3>Pacific Northwest</h3>
+              <div class="tl-entry"><span class="yr">2011&#8211;12</span><span class="what">Boeing (Mukilteo) &mdash; KC&#8209;46, Staff Analyst</span></div>
+              <div class="tl-entry"><span class="yr">2012&#8211;18</span><span class="what">Boeing (Renton) &mdash; Communications &amp; Branding Leader</span></div>
+              <div class="tl-entry"><span class="yr">2018&#8211;22</span><span class="what">Boeing (Renton) &mdash; Sales &amp; Account Director</span></div>
+              <div class="tl-entry"><span class="yr">2022&#8211;24</span><span class="what">Boeing (Everett) &mdash; Digital Transformation PM</span></div>
+            </div>
+            <div class="hub-col" style="--c:var(--florida)">
+              <h3>Florida Space Coast</h3>
+              <div class="tl-entry"><span class="yr">2024</span><span class="what">Boeing (Stuart) &mdash; Supplier Quality PM</span></div>
+              <div class="tl-entry"><span class="yr">2025</span><span class="what">AAR Gov&rsquo;t Services (Rockledge) &mdash; Supplier Relations</span></div>
+              <div class="tl-entry"><span class="yr">2025&#8211;26</span><span class="what">L3Harris (Palm Bay) &mdash; Supply Chain Strategy</span></div>
+              <div class="tl-entry"><span class="yr">2026&#8211;Present</span><span class="what">Blue Origin (Merritt Island) &mdash; Manufacturing Ops PM</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -597,12 +618,15 @@
           <h2 class="frame-title">Core Expertise</h2>
           <p class="frame-sub">The gauges that stay steady across every program.</p>
           <div class="gauge-grid">
-            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Program &amp; Supply Chain Strategy</div>
-            <div class="gauge" style="--c:var(--pnw)"><span class="bulb"></span>Manufacturing Ops &amp; Production Readiness</div>
+            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Program &amp; Strategic Planning</div>
+            <div class="gauge" style="--c:var(--pnw)"><span class="bulb"></span>Manufacturing &amp; Production Readiness</div>
             <div class="gauge" style="--c:var(--florida)"><span class="bulb"></span>Supplier Quality &amp; Corrective Action</div>
-            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Regulatory Compliance (AS9100 / NADCAP / FAR)</div>
+            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Regulatory Compliance (FAA/AS9100/NADCAP/FAR)</div>
             <div class="gauge" style="--c:var(--pnw)"><span class="bulb"></span>Risk Management &amp; EVM</div>
-            <div class="gauge" style="--c:var(--florida)"><span class="bulb"></span>Cross&#8209;Functional Program Leadership</div>
+            <div class="gauge" style="--c:var(--florida)"><span class="bulb"></span>Cross&#8209;Functional Leadership</div>
+            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Supplier &amp; Subcontract Governance</div>
+            <div class="gauge" style="--c:var(--pnw)"><span class="bulb"></span>Customer &amp; Contract Execution</div>
+            <div class="gauge" style="--c:var(--florida)"><span class="bulb"></span>Digital &amp; Enterprise Systems (SAP/MRP)</div>
           </div>
         </div>
       </div>
@@ -631,7 +655,7 @@
             </div>
             <div class="mission-col" style="--c:var(--gold)">
               <h3>Special Process Compliance</h3>
-              <p>NADCAP scope includes chemical processing and coatings. Rebuilt special&#8209;process compliance at Boeing; supplier material&#8209;risk governance at L3Harris.</p>
+              <p>NADCAP scope includes chemical processing and coatings. Restored AS9100/NADCAP compliance and FAA inspection delegation at Boeing; at L3Harris, surfaced $100M in contract material risk and stood up its Subcontract Review Board.</p>
             </div>
           </div>
         </div>
@@ -646,7 +670,7 @@
         <div class="frame-body">
           <p class="kicker">Waypoint 05 &middot; Current Ops</p>
           <h2 class="frame-title">Current &amp; Recent Work</h2>
-          <p class="frame-sub">Blue Origin &mdash; Florida Space Coast.</p>
+          <p class="frame-sub">Blue Origin, Merritt Island, FL &mdash; Manufacturing Operations Project Manager, Integrated Supply Chain.</p>
           <div class="ops-grid">
             <div class="ops-card" style="--c:var(--spain)">
               <h3>Precision Cleaning Facility</h3>
@@ -680,7 +704,7 @@
     </section>
 
     <section class="frame frame--log" data-code="06" data-label="FLIGHT LOG"
-              data-cx="12300" data-cy="960" data-w="900" data-h="620">
+              data-cx="12300" data-cy="960" data-w="900" data-h="760">
       <div class="plate">
         <div class="frame-body">
           <p class="kicker">Waypoint 06 &middot; Flight Log</p>
@@ -692,7 +716,13 @@
           </div>
           <div><span class="chip" style="border-color:var(--gold); margin-top:6px; display:inline-block;">Waypoint 00 &middot; where the flight plan begins</span></div>
           <p class="lang-line">English / Spanish (bilingual), Italian (fluent), French &amp; Portuguese (conversational)</p>
-          <div class="seal"><span class="dot"></span>Licensed commercial pilot</div>
+          <p class="lang-line">SAP S/4HANA &middot; Salesforce &middot; Tableau &middot; Azure DevOps</p>
+          <p class="lang-line">4&times; Communications Excellence Awards &middot; Service Excellence Award, Farnborough Airshow</p>
+          <div class="seal"><span class="dot"></span>Commercial Pilot &mdash; MEPL&#8209;A, IR&#8209;A, FI&#8209;A, MCC, Frozen ATP</div>
+          <div class="chips" style="margin-top:10px;">
+            <span class="chip">US Citizen &middot; Secret Clearance</span>
+            <a class="chip" style="text-decoration:none;" href="https://www.linkedin.com/in/teresamkuhn" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+          </div>
           <div><button class="restart" id="restartBtn" type="button">&#8630; fly the route again</button></div>
         </div>
       </div>
