@@ -215,6 +215,28 @@
     background:var(--gold); flex:none;
   }
 
+  #scrollHint{display:none;}
+  body.mode-canvas #scrollHint{
+    display:flex;
+    position:fixed; bottom:86px; left:50%; z-index:20;
+    transform:translateX(-50%);
+    align-items:center; gap:8px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    padding:8px 14px;
+    border-radius:999px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase;
+    box-shadow:0 8px 18px var(--shadow);
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  body.mode-canvas #scrollHint.show{opacity:1;}
+  #scrollHint .chev{display:inline-block; animation:nudgeY 1.6s ease-in-out infinite;}
+  @keyframes nudgeY{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+  @media (prefers-reduced-motion: reduce){#scrollHint .chev{animation:none;}}
+
   body.mode-canvas #navbar{
     display:flex;
     position:fixed; left:50%; bottom:22px; z-index:20;
@@ -752,6 +774,7 @@
 
 <div id="brandmark">TERESA <b>KUHN</b> &middot; CAREER FLIGHT PLAN</div>
 <button id="overviewBtn" type="button"><span class="dot"></span>Map</button>
+<div id="scrollHint"><span class="chev">&darr;</span>scroll for more</div>
 
 <nav id="navbar" aria-label="Waypoint navigation">
   <button class="navbtn" id="prevBtn" type="button" aria-label="Previous waypoint">&lsaquo;</button>
@@ -779,6 +802,8 @@
   var mode = null;
   var current = 0;
   var inOverview = false;
+  var scrollHint = document.getElementById('scrollHint');
+  var panY = 0, curTx = 0, curTy = 0, curScale = 1, curOverflowY = 0;
 
   frames.forEach(function(f, i){
     var dot = document.createElement('button');
@@ -815,6 +840,7 @@
     window.addEventListener('resize', onResize);
     document.addEventListener('keydown', onKey);
     universe.addEventListener('click', onUniverseClick);
+    stage.addEventListener('wheel', onWheel, {passive:false});
     goTo(current, false);
   }
 
@@ -831,6 +857,7 @@
     window.removeEventListener('resize', onResize);
     document.removeEventListener('keydown', onKey);
     universe.removeEventListener('click', onUniverseClick);
+    stage.removeEventListener('wheel', onWheel);
   }
 
   function checkMode(){
@@ -860,12 +887,35 @@
     var f = frames[current];
     var w = +f.dataset.w, h = +f.dataset.h, cx = +f.dataset.cx, cy = +f.dataset.cy;
     var vw = stage.clientWidth, vh = stage.clientHeight;
-    var scale = Math.min((vw*0.88)/w, (vh*0.84)/h);
-    scale = Math.max(0.42, Math.min(scale, 1.35));
-    var tx = vw/2 - cx*scale, ty = vh/2 - cy*scale;
-    universe.style.transition = animate ? 'transform 1000ms cubic-bezier(.65,0,.35,1)' : 'none';
-    universe.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    var scale = (vw*0.88)/w;
+    scale = Math.max(0.42, Math.min(scale, 1.4));
+    curScale = scale;
+    curTx = vw/2 - cx*scale;
+    curTy = vh/2 - cy*scale;
+    curOverflowY = Math.max(0, h*scale - vh*0.84);
+    panY = 0;
+    applyTransform(animate);
     updateNav();
+    updateScrollHint();
+  }
+
+  function applyTransform(animate){
+    universe.style.transition = animate ? 'transform 1000ms cubic-bezier(.65,0,.35,1)' : 'none';
+    universe.style.transform = 'translate(' + curTx + 'px,' + (curTy - panY) + 'px) scale(' + curScale + ')';
+  }
+
+  function updateScrollHint(){
+    if(!scrollHint) return;
+    var show = mode === 'canvas' && !inOverview && curOverflowY > 4 && panY < curOverflowY - 4;
+    scrollHint.classList.toggle('show', show);
+  }
+
+  function onWheel(e){
+    if(mode !== 'canvas' || inOverview || curOverflowY <= 0) return;
+    e.preventDefault();
+    panY = Math.max(0, Math.min(curOverflowY, panY + e.deltaY));
+    applyTransform(false);
+    updateScrollHint();
   }
 
   function overviewFit(){
@@ -888,11 +938,13 @@
     inOverview = true;
     universe.classList.add('is-overview');
     overviewFit();
+    updateScrollHint();
   }
   function exitOverview(){
     if(!inOverview) return;
     inOverview = false;
     universe.classList.remove('is-overview');
+    updateScrollHint();
   }
 
   function onUniverseClick(e){
