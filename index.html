@@ -397,6 +397,11 @@
     margin:0 auto;
     position:relative;
     overflow:hidden;
+    transition:box-shadow .3s ease;
+  }
+  .chartbox.is-expanded{
+    max-width:1180px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.5);
   }
   .chartbox svg{width:100%; height:auto; display:block;}
   .map-stage{transform-origin:0 0; transition:transform 900ms cubic-bezier(.65,0,.35,1); will-change:transform;}
@@ -429,6 +434,22 @@
   .tl-entry{margin-bottom:7px;}
   .tl-entry .yr{display:block; font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--c); letter-spacing:0.03em; text-transform:uppercase;}
   .tl-entry .what{display:block; font-size:15px; color:var(--ink); line-height:1.4; margin-top:1px;}
+  .tl-toggle{
+    display:block; width:100%; text-align:left;
+    background:none; border:none; padding:0; margin:0;
+    font:inherit; color:inherit; cursor:pointer; position:relative;
+  }
+  .tl-toggle .what{padding-right:18px;}
+  .tl-chev{
+    position:absolute; right:0; top:2px;
+    font-size:16px; color:var(--c);
+    transition:transform .2s ease;
+  }
+  .tl-toggle[aria-expanded="true"] .tl-chev{transform:rotate(90deg);}
+  .tl-toggle:hover .what{color:var(--gold);}
+  .tl-more{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .tl-more ul{margin:6px 0 2px; padding-left:15px;}
+  .tl-more li{font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:5px;}
 
   /* instruments */
   .gauge-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:22px;}
@@ -573,6 +594,9 @@
                     <line x1="725" y1="295" x2="860" y2="440"/>
                     <line x1="725" y1="295" x2="830" y2="580"/>
                     <line x1="725" y1="295" x2="1018" y2="528"/>
+                    <line x1="725" y1="295" x2="660" y2="300"/>
+                    <line x1="725" y1="295" x2="900" y2="218"/>
+                    <line x1="725" y1="295" x2="680" y2="360"/>
                   </g>
 
                   <!-- chronological hub path, starting at undergrad -->
@@ -587,6 +611,9 @@
                     <circle cx="860" cy="440" r="10"/>
                     <circle cx="830" cy="580" r="10"/>
                     <circle cx="1018" cy="528" r="10"/>
+                    <circle cx="660" cy="300" r="10"/>
+                    <circle cx="900" cy="218" r="10"/>
+                    <circle cx="680" cy="360" r="10"/>
                   </g>
                   <g font-family="IBM Plex Mono, monospace" font-size="26" fill="var(--ink)">
                     <text x="650" y="180">Sheffield</text>
@@ -596,6 +623,9 @@
                     <text x="770" y="475">Addis Ababa</text>
                     <text x="770" y="615">South Africa</text>
                     <text x="1038" y="523">R&#233;union</text>
+                    <text x="540" y="308">Portugal</text>
+                    <text x="908" y="200">Germany</text>
+                    <text x="560" y="368">Tangier</text>
                   </g>
 
                   <!-- undergrad origin -->
@@ -609,13 +639,10 @@
                     <circle class="map-pin" data-hub="florida" tabindex="0" role="button" aria-label="Zoom to Florida Space Coast" cx="403" cy="368" r="19" fill="var(--florida)" stroke="var(--panel)" stroke-width="4"/>
                   </g>
                   <g font-family="Big Shoulders Display, sans-serif" font-weight="800" font-size="32" fill="var(--ink)">
-                    <text x="340" y="235">WASHINGTON, DC</text>
+                    <text x="340" y="270">WASHINGTON, DC</text>
                     <text x="175" y="222">PACIFIC NORTHWEST</text>
                     <text x="650" y="345">SPAIN</text>
                     <text x="290" y="420">FLORIDA SPACE COAST</text>
-                  </g>
-                  <g font-family="IBM Plex Mono, monospace" font-size="24" fill="var(--gold)">
-                    <text x="340" y="263">American University &middot; BA</text>
                   </g>
                 </svg>
                 </div>
@@ -633,23 +660,93 @@
             </div>
             <div class="hub-col" data-hub="spain" style="--c:var(--spain)">
               <h3>Spain</h3>
-              <div class="tl-entry"><span class="yr">Air Consul</span><span class="what">Seville &mdash; Ops Manager &amp; Chief Ground Instructor</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Madrid &mdash; International Corporate Communications Specialist and Sales Administration</span></div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Air Consul</span><span class="what">Seville &mdash; Ops Manager &amp; Chief Ground Instructor</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Managed international air taxi operations under Seville's only DGAC/JAR&#8209;OPS Type B AOC, coordinating charter scheduling, crew logistics, and regulatory compliance across Europe &amp; North Africa.</li>
+                  <li>Negotiated supplier, MRO, and FTO contracts for 19 aircraft, flight simulators, avionics, and spares.</li>
+                  <li>Led DGAC/JAA regulatory audits and directed FTO training operations for 150+ students from 15+ countries.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Boeing</span><span class="what">Madrid &mdash; International Corporate Communications Specialist and Sales Administration</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Served as webmaster for Boeing in Spain, translating comms/sales materials and onboarding 20 startup airlines into the Boeing ecosystem.</li>
+                  <li>Managed media chalet operations at the Paris &amp; Farnborough airshows, cutting staffing needs by 33%.</li>
+                  <li>Coordinated the indirect supply chain for major media events, including Aeromexico's biofuel flight and the Fuel Cell Demonstrator launch.</li>
+                </ul></div>
+              </div>
             </div>
             <div class="hub-col" data-hub="pnw" style="--c:var(--pnw)">
               <h3>Pacific Northwest</h3>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Mukilteo &mdash; Support &amp; Training Integration Analyst, KC&#8209;46 Tanker</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Renton &mdash; Communications &amp; Branding Specialist</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Renton &mdash; Account Director, Airplane Services Sales</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">BCA Digital Transformation &mdash; Lead PM, Stakeholder &amp; Supplier Engagement</span></div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Boeing</span><span class="what">Mukilteo &mdash; Support &amp; Training Integration Analyst, KC&#8209;46 Tanker</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Coordinated large&#8209;scale U.S. Air Force customer engagement events to support contract compliance on the KC&#8209;46 Tanker program.</li>
+                  <li>Drove internal communications, change management, and project coordination for the Support &amp; Training team.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Boeing</span><span class="what">Renton &mdash; Communications &amp; Branding Specialist</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Created an award&#8209;winning social media campaign for the Farnborough Airshow and launched the business unit's LinkedIn thought&#8209;leadership strategy.</li>
+                  <li>Led communications for the Initium joint venture with Safran and BCA Digital strategy rollouts (IT hardware, signage, software).</li>
+                  <li>Increased employee engagement at events by 81%; earned four Communications Excellence awards.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Boeing</span><span class="what">Renton &mdash; Account Director, Airplane Services Sales</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Drove services sales growth across ~100 airline customers, consistently surpassing quota.</li>
+                  <li>Achieved 90% forecast accuracy via a Salesforce pipeline dashboard for Dubai, Paris &amp; Farnborough airshow announcements.</li>
+                  <li>Directed the return&#8209;to&#8209;service and transoceanic ferry of a 737 MAX from South Africa to Arizona, ahead of schedule.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Boeing</span><span class="what">BCA Digital Transformation &mdash; Lead PM, Stakeholder &amp; Supplier Engagement</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Articulated the Digital Transformation vision and integration strategy with Dassault Syst&#232;mes across engineering, commercial, and supply chain.</li>
+                  <li>Presented program milestones at 3DEXPERIENCE Forum, NVIDIA GTC, and events across Singapore, Indonesia, Japan &amp; India.</li>
+                  <li>Delivered enterprise training on the 3DEXPERIENCE platform, lifting program ROI by 87%.</li>
+                </ul></div>
+              </div>
             </div>
             <div class="hub-col" data-hub="florida" style="--c:var(--florida)">
               <h3>Florida Space Coast</h3>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Stuart &mdash; Supplier Quality PM</span></div>
-              <div class="tl-entry"><span class="yr">AAR</span><span class="what">Rockledge &mdash; Senior Supplier Relations Analyst, U.S. Dept. of State Air Wing</span></div>
-              <div class="tl-entry"><span class="yr">L3Harris</span><span class="what">Palm Bay &mdash; Supply Chain Strategy</span></div>
-              <div class="tl-entry"><span class="yr">Blue Origin</span><span class="what">Merritt Island &mdash; Manufacturing Ops PM, current</span></div>
-              <div class="tl-entry"><span class="yr">Board Member</span><span class="what">Learning Forward Education Center, current</span></div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Boeing</span><span class="what">Stuart &mdash; Supplier Quality PM</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Project&#8209;managed a supplier recovery plan to restore AS9100/NADCAP compliance, pass FAA audits, and reinstate inspection delegation.</li>
+                  <li>Improved the Quick Response Quality Control program using PFMEA, Pareto, 5&#8209;Why, 8D &amp; Fishbone methods to drive root&#8209;cause corrective action.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">AAR</span><span class="what">Rockledge &mdash; Senior Supplier Relations Analyst, U.S. Dept. of State Air Wing</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Supported the U.S. State Department Air Wing's WASS program under FAR requirements, building strategic procurement and supplier management plans.</li>
+                  <li>Identified supplier risk and compliance gaps, implementing tools to strengthen contractual performance and reduce schedule delays.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">L3Harris</span><span class="what">Palm Bay &mdash; Supply Chain Strategy</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Built a digital data thread integrating financial and operational data, surfacing $100M in contract material risk.</li>
+                  <li>Architected a Subcontract Review Board achieving 90% engagement; reduced multimillion&#8209;dollar excess &amp; obsolete inventory.</li>
+                  <li>Led a government/defense contract closeout strategy across dozens of sites, ensuring FAR compliance.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Blue Origin</span><span class="what">Merritt Island &mdash; Manufacturing Ops PM, current</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Leads the bellows insourcing program, Precision Cleaning Facility continuous&#8209;improvement initiative, and Surface Coating Facility automation project &mdash; see Mission &amp; Current Ops for details.</li>
+                </ul></div>
+              </div>
+              <div class="tl-entry">
+                <button class="tl-toggle" type="button" aria-expanded="false"><span class="yr">Board Member</span><span class="what">Learning Forward Education Center, current</span><span class="tl-chev">&rsaquo;</span></button>
+                <div class="tl-more"><ul>
+                  <li>Serves on the board of this Greater Palm Bay&#8209;Melbourne&#8209;Titusville area education nonprofit.</li>
+                </ul></div>
+              </div>
             </div>
           </div>
         </div>
@@ -900,6 +997,7 @@
     var viewportEl = pin.closest('.chartbox');
     if(stageEl){ stageEl.style.transform = 'translate(0px,0px) scale(1)'; }
     if(viewportEl){
+      viewportEl.classList.remove('is-expanded');
       var btn = viewportEl.querySelector('.map-reset-btn');
       if(btn){ btn.classList.remove('show'); }
     }
@@ -926,8 +1024,9 @@
     activeMapPin = pin;
     pin.classList.add('is-active');
     setHubColLinked(pin.dataset.hub, true);
-    focusMapPin(pin);
     var viewportEl = pin.closest('.chartbox');
+    if(viewportEl){ viewportEl.classList.add('is-expanded'); }
+    focusMapPin(pin);
     if(viewportEl){
       var btn = viewportEl.querySelector('.map-reset-btn');
       if(btn){ btn.classList.add('show'); }
@@ -950,6 +1049,17 @@
     btn.addEventListener('click', function(e){
       e.stopPropagation();
       if(activeMapPin){ toggleMapPin(activeMapPin); }
+    });
+  });
+
+  Array.prototype.slice.call(document.querySelectorAll('.tl-toggle')).forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var more = btn.nextElementSibling;
+      if(!more) return;
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      more.style.maxHeight = open ? '0px' : (more.scrollHeight + 'px');
     });
   });
 
