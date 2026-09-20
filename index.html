@@ -395,15 +395,36 @@
     padding:10px;
     max-width:900px;
     margin:0 auto;
+    position:relative;
+    overflow:hidden;
   }
   .chartbox svg{width:100%; height:auto; display:block;}
+  .map-stage{transform-origin:0 0; transition:transform 900ms cubic-bezier(.65,0,.35,1); will-change:transform;}
+  .map-pin{cursor:pointer; transition:filter .2s ease;}
+  .map-pin:hover{filter:brightness(1.3);}
+  .map-pin.is-active{filter:drop-shadow(0 0 6px var(--gold)) brightness(1.25);}
+  .map-reset-btn{
+    position:absolute; top:10px; right:10px; z-index:5;
+    background:rgba(22,48,74,0.92);
+    border:1px solid var(--gold);
+    color:var(--ink);
+    padding:6px 12px;
+    border-radius:999px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+    opacity:0; transform:translateY(-4px);
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .map-reset-btn.show{opacity:1; transform:translateY(0); pointer-events:auto;}
   .legend{display:flex; gap:22px; margin-top:10px; flex-wrap:wrap; justify-content:center;}
   .legend-item{display:flex; align-items:center; gap:8px; font-size:14.5px; color:var(--ink-soft);}
   .legend-item .sw{width:11px; height:11px; transform:rotate(45deg); flex:none;}
   .hub-timeline{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:16px;}
   @media (max-width:900px){.hub-timeline{grid-template-columns:1fr 1fr;}}
   @media (max-width:520px){.hub-timeline{grid-template-columns:1fr;}}
-  .hub-col{border-top:3px solid var(--c); padding-top:8px;}
+  .hub-col{border-top:3px solid var(--c); padding-top:8px; transition:transform .3s ease, box-shadow .3s ease; border-radius:4px;}
+  .hub-col.is-linked{transform:scale(1.045); box-shadow:0 0 0 2px var(--gold), 0 10px 24px rgba(0,0,0,0.4); position:relative; z-index:2;}
   .hub-col h3{font-family:"Big Shoulders Display", sans-serif; font-weight:800; text-transform:uppercase; font-size:16px; letter-spacing:0.02em; color:var(--c); margin-bottom:6px;}
   .tl-entry{margin-bottom:7px;}
   .tl-entry .yr{display:block; font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--c); letter-spacing:0.03em; text-transform:uppercase;}
@@ -533,7 +554,9 @@
           <p class="frame-sub">From American University in Washington, D.C. to the Space Coast.</p>
           <div>
               <div class="chartbox">
-                <svg viewBox="0 0 1536 670" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="World map showing career hubs and work travel">
+                <button type="button" class="map-reset-btn" aria-label="Reset map zoom">&larr; Reset map</button>
+                <div class="map-stage">
+                <svg viewBox="0 0 1536 670" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="World map showing career hubs and work travel — click a hub to zoom in">
                   <defs>
                     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                       <path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/>
@@ -577,13 +600,13 @@
 
                   <!-- undergrad origin -->
                   <g>
-                    <circle cx="425" cy="289" r="17" fill="var(--ink)" stroke="var(--gold)" stroke-width="4"/>
+                    <circle class="map-pin" data-hub="undergrad" tabindex="0" role="button" aria-label="Zoom to Washington, D.C." cx="425" cy="289" r="17" fill="var(--ink)" stroke="var(--gold)" stroke-width="4"/>
                   </g>
                   <!-- hubs -->
                   <g>
-                    <circle cx="150" cy="228" r="19" fill="var(--pnw)" stroke="var(--panel)" stroke-width="4"/>
-                    <circle cx="725" cy="295" r="19" fill="var(--spain)" stroke="var(--panel)" stroke-width="4"/>
-                    <circle cx="403" cy="368" r="19" fill="var(--florida)" stroke="var(--panel)" stroke-width="4"/>
+                    <circle class="map-pin" data-hub="pnw" tabindex="0" role="button" aria-label="Zoom to Pacific Northwest" cx="150" cy="228" r="19" fill="var(--pnw)" stroke="var(--panel)" stroke-width="4"/>
+                    <circle class="map-pin" data-hub="spain" tabindex="0" role="button" aria-label="Zoom to Spain" cx="725" cy="295" r="19" fill="var(--spain)" stroke="var(--panel)" stroke-width="4"/>
+                    <circle class="map-pin" data-hub="florida" tabindex="0" role="button" aria-label="Zoom to Florida Space Coast" cx="403" cy="368" r="19" fill="var(--florida)" stroke="var(--panel)" stroke-width="4"/>
                   </g>
                   <g font-family="Big Shoulders Display, sans-serif" font-weight="800" font-size="32" fill="var(--ink)">
                     <text x="340" y="235">WASHINGTON, DC</text>
@@ -595,6 +618,7 @@
                     <text x="340" y="263">American University &middot; BA</text>
                   </g>
                 </svg>
+                </div>
               </div>
               <div class="legend">
                 <div class="legend-item"><span class="sw" style="background:var(--spain);"></span>Based here</div>
@@ -603,28 +627,29 @@
               </div>
           </div>
           <div class="hub-timeline">
-            <div class="hub-col" style="--c:var(--gold)">
+            <div class="hub-col" data-hub="undergrad" style="--c:var(--gold)">
               <h3>Washington, DC</h3>
               <div class="tl-entry"><span class="yr">Origin</span><span class="what">American University &mdash; BA, Language &amp; Area Studies</span></div>
             </div>
-            <div class="hub-col" style="--c:var(--spain)">
+            <div class="hub-col" data-hub="spain" style="--c:var(--spain)">
               <h3>Spain</h3>
               <div class="tl-entry"><span class="yr">Air Consul</span><span class="what">Seville &mdash; Ops Manager &amp; Chief Ground Instructor</span></div>
               <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Madrid &mdash; Comms &amp; Sales Support, EMEA</span></div>
             </div>
-            <div class="hub-col" style="--c:var(--pnw)">
+            <div class="hub-col" data-hub="pnw" style="--c:var(--pnw)">
               <h3>Pacific Northwest</h3>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Mukilteo &mdash; KC&#8209;46, Staff Analyst</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Renton &mdash; Communications &amp; Branding Leader</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Renton &mdash; Sales &amp; Account Director</span></div>
-              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Everett &mdash; Digital Transformation PM</span></div>
+              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Mukilteo &mdash; Support &amp; Training Integration Analyst, KC&#8209;46 Tanker</span></div>
+              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Renton &mdash; Communications &amp; Branding Specialist</span></div>
+              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Renton &mdash; Account Director, Airplane Services Sales</span></div>
+              <div class="tl-entry"><span class="yr">Boeing</span><span class="what">BCA Digital Transformation &mdash; Lead PM, Stakeholder &amp; Supplier Engagement</span></div>
             </div>
-            <div class="hub-col" style="--c:var(--florida)">
+            <div class="hub-col" data-hub="florida" style="--c:var(--florida)">
               <h3>Florida Space Coast</h3>
               <div class="tl-entry"><span class="yr">Boeing</span><span class="what">Stuart &mdash; Supplier Quality PM</span></div>
-              <div class="tl-entry"><span class="yr">AAR</span><span class="what">Rockledge &mdash; Supplier Relations</span></div>
+              <div class="tl-entry"><span class="yr">AAR</span><span class="what">Rockledge &mdash; Senior Supplier Relations Analyst, U.S. Dept. of State Air Wing</span></div>
               <div class="tl-entry"><span class="yr">L3Harris</span><span class="what">Palm Bay &mdash; Supply Chain Strategy</span></div>
               <div class="tl-entry"><span class="yr">Blue Origin</span><span class="what">Merritt Island &mdash; Manufacturing Ops PM, current</span></div>
+              <div class="tl-entry"><span class="yr">Board Member</span><span class="what">Learning Forward Education Center, current</span></div>
             </div>
           </div>
         </div>
@@ -644,7 +669,7 @@
             <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Program &amp; Strategic Planning</div>
             <div class="gauge" style="--c:var(--pnw)"><span class="bulb"></span>Manufacturing &amp; Production Readiness</div>
             <div class="gauge" style="--c:var(--florida)"><span class="bulb"></span>Supplier Quality &amp; Corrective Action</div>
-            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Regulatory Compliance (FAA/AS9100/NADCAP/FAR)</div>
+            <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Regulatory Compliance (FAA/EASA/AS9100/NADCAP/FAR)</div>
             <div class="gauge" style="--c:var(--pnw)"><span class="bulb"></span>Risk Management &amp; EVM</div>
             <div class="gauge" style="--c:var(--florida)"><span class="bulb"></span>Cross&#8209;Functional Leadership</div>
             <div class="gauge" style="--c:var(--spain)"><span class="bulb"></span>Supplier &amp; Subcontract Governance</div>
@@ -679,12 +704,13 @@
               <div class="hub-col" style="--c:var(--spain)">
                 <h3>Air Consul, Seville</h3>
                 <div class="tl-entry"><span class="yr">Instructor</span><span class="what">DGAC&#8209;certified Aeronautical English Instructor &amp; Evaluator</span></div>
-                <div class="tl-entry"><span class="yr">FTO</span><span class="what">Directed training ops for 150+ students from 15+ countries; designed DGAC/JAR&#8209;FCL curricula</span></div>
+                <div class="tl-entry"><span class="yr">FTO</span><span class="what">Directed training ops for 150+ students from 15+ countries; designed DGAC/JAR&#8209;FCL curricula and led the org's transition from DGAC national standards to JAR&#8209;FCL harmonization</span></div>
               </div>
               <div class="hub-col" style="--c:var(--pnw)">
                 <h3>Boeing Digital Transformation</h3>
                 <div class="tl-entry"><span class="yr">3DX Adoption</span><span class="what">Delivered platform training across the program, lifting adoption ROI 87%</span></div>
                 <div class="tl-entry"><span class="yr">Course Content</span><span class="what">Wrote training curricula, video narration, and course evaluations</span></div>
+                <div class="tl-entry"><span class="yr">Global Engagement</span><span class="what">Presented program milestones at 3DEXPERIENCE Forum, NVIDIA GTC, and events across Singapore, Indonesia, Japan &amp; India</span></div>
               </div>
             </div>
           </div>
@@ -715,7 +741,7 @@
             </div>
             <div class="mission-col" style="--c:var(--gold)">
               <h3>Special Process Compliance</h3>
-              <p>NADCAP scope includes chemical processing and coatings. Restored AS9100/NADCAP compliance and FAA inspection delegation at Boeing; at L3Harris, surfaced $100M in contract material risk and stood up its Subcontract Review Board.</p>
+              <p>NADCAP scope includes chemical processing and coatings. Restored AS9100/NADCAP compliance and FAA inspection delegation at Boeing; at L3Harris, surfaced $100M in contract material risk and stood up its Subcontract Review Board, achieving 90% engagement.</p>
             </div>
           </div>
         </div>
@@ -773,9 +799,10 @@
             <div class="cred-row"><span class="deg">MBA</span><span class="sch">Washington State University</span></div>
             <div class="cred-row"><span class="deg">MS, Logistics &amp; Supply Chain Management</span><span class="sch">Embry&#8209;Riddle Aeronautical University</span></div>
             <div class="cred-row" style="border-color:var(--gold)"><span class="deg">BA, Language &amp; Area Studies</span><span class="sch">American University &mdash; Washington, D.C.</span></div>
+            <div class="cred-row"><span class="deg">Spanish Language &amp; Literature</span><span class="sch">Universidad de Sevilla</span></div>
           </div>
           <div><span class="chip" style="border-color:var(--gold); margin-top:6px; display:inline-block;">Waypoint 00 &middot; where the flight plan begins</span></div>
-          <p class="lang-line">English / Spanish (bilingual), Italian (fluent), French &amp; Portuguese (conversational)</p>
+          <p class="lang-line">English / Spanish (native/bilingual) &middot; Italian &amp; French (professional working) &middot; German &amp; Portuguese (limited working)</p>
           <p class="lang-line">SAP S/4HANA &middot; Salesforce &middot; Tableau &middot; Azure DevOps</p>
           <p class="lang-line">4&times; Communications Excellence Awards &middot; Service Excellence Award, Farnborough Airshow</p>
           <div class="seal"><span class="dot"></span>Commercial Pilot &mdash; MEPL&#8209;A, IR&#8209;A, FI&#8209;A, MCC, Frozen ATP</div>
@@ -850,6 +877,82 @@
     });
   });
 
+  var mapPins = Array.prototype.slice.call(document.querySelectorAll('.map-pin'));
+  var activeMapPin = null;
+
+  function focusMapPin(pin){
+    var stageEl = pin.closest('.map-stage');
+    var viewportEl = pin.closest('.chartbox');
+    var svg = pin.ownerSVGElement;
+    if(!stageEl || !viewportEl || !svg) return;
+    var vb = svg.viewBox.baseVal;
+    var fx = (+pin.getAttribute('cx') - vb.x) / vb.width;
+    var fy = (+pin.getAttribute('cy') - vb.y) / vb.height;
+    var rect = viewportEl.getBoundingClientRect();
+    var scale = 2.4;
+    var tx = 0.5 * rect.width - fx * rect.width * scale;
+    var ty = 0.45 * rect.height - fy * rect.height * scale;
+    stageEl.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+  }
+
+  function resetMapPin(pin){
+    var stageEl = pin.closest('.map-stage');
+    var viewportEl = pin.closest('.chartbox');
+    if(stageEl){ stageEl.style.transform = 'translate(0px,0px) scale(1)'; }
+    if(viewportEl){
+      var btn = viewportEl.querySelector('.map-reset-btn');
+      if(btn){ btn.classList.remove('show'); }
+    }
+  }
+
+  function setHubColLinked(hub, active){
+    Array.prototype.slice.call(document.querySelectorAll('.hub-col[data-hub="' + hub + '"]')).forEach(function(c){
+      c.classList.toggle('is-linked', active);
+    });
+  }
+
+  function toggleMapPin(pin){
+    if(activeMapPin === pin){
+      pin.classList.remove('is-active');
+      setHubColLinked(pin.dataset.hub, false);
+      resetMapPin(pin);
+      activeMapPin = null;
+      return;
+    }
+    if(activeMapPin){
+      activeMapPin.classList.remove('is-active');
+      setHubColLinked(activeMapPin.dataset.hub, false);
+    }
+    activeMapPin = pin;
+    pin.classList.add('is-active');
+    setHubColLinked(pin.dataset.hub, true);
+    focusMapPin(pin);
+    var viewportEl = pin.closest('.chartbox');
+    if(viewportEl){
+      var btn = viewportEl.querySelector('.map-reset-btn');
+      if(btn){ btn.classList.add('show'); }
+    }
+  }
+
+  mapPins.forEach(function(pin){
+    pin.addEventListener('click', function(e){
+      if(mode !== 'canvas' || inOverview) return;
+      e.stopPropagation();
+      toggleMapPin(pin);
+    });
+    pin.addEventListener('keydown', function(e){
+      if(mode !== 'canvas' || inOverview) return;
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); toggleMapPin(pin); }
+    });
+  });
+
+  Array.prototype.slice.call(document.querySelectorAll('.map-reset-btn')).forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(activeMapPin){ toggleMapPin(activeMapPin); }
+    });
+  });
+
   function placeMarkers(){
     markers.forEach(function(m){
       var idx = +m.dataset.wp;
@@ -919,6 +1022,7 @@
     if(animate === undefined) animate = true;
     current = Math.max(0, Math.min(frames.length - 1, i));
     exitDrill();
+    if(activeMapPin){ toggleMapPin(activeMapPin); }
     if(mode !== 'canvas'){ updateNav(); return; }
     var f = frames[current];
     var w = +f.dataset.w, h = +f.dataset.h, cx = +f.dataset.cx, cy = +f.dataset.cy;
@@ -1051,7 +1155,7 @@
     } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
       e.preventDefault(); exitOverview(); goTo(current - 1);
     } else if(e.key === 'Escape'){
-      if(drilled){ goTo(current); } else { exitOverview(); }
+      if(drilled){ goTo(current); } else if(activeMapPin){ toggleMapPin(activeMapPin); } else { exitOverview(); }
     } else if(e.key.toLowerCase() === 'o'){
       if(inOverview){ exitOverview(); goTo(current); } else { enterOverview(); }
     }
